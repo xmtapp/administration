@@ -1,0 +1,28 @@
+{
+    "name": "xmtapp/administration",
+    "description": "xmtapp administration",
+    "type": "xmtapp-module",
+    "license": "Apache License",
+    "authors": [{
+        "name": "DongYao",
+        "email": "dong_yao_cn@163.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "XmtApp\\Module\\Administration\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "XmtApp\\Module\\Administration\\ModuleServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0",
+        "ext-mbstring": "*",
+        "ext-openssl": "*"
+    }
+}
