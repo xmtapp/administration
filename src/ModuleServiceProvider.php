@@ -3,6 +3,7 @@
 namespace XmtApp\Module\Administration;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class ModuleServiceProvider extends ServiceProvider {
     
@@ -18,6 +19,8 @@ class ModuleServiceProvider extends ServiceProvider {
     // 视图
     protected $view = 'admin';
 
+    // 路由前缀
+    protected $route_prefix = 'administration';
     /**
      * The controller namespace for the application.
      *
@@ -32,10 +35,8 @@ class ModuleServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->setRootControllerNamespace();
-        
         // 设置模块的路由文件
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->mapWebRoutes($this->route_prefix);
 
         // 设置数据迁移模块
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
@@ -48,14 +49,16 @@ class ModuleServiceProvider extends ServiceProvider {
     }
 
     /**
-     * Set the root controller namespace for the application.
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
      *
      * @return void
      */
-    protected function setRootControllerNamespace()
+    protected function mapWebRoutes(string $prefix)
     {
-        if (! is_null($this->namespace)) {
-            $this->app[UrlGenerator::class]->setRootControllerNamespace($this->namespace);
-        }
+        Route::prefix($prefix)->middleware('web')
+             ->namespace($this->namespace)
+             ->group(__DIR__.'/routes.php');
     }
 }

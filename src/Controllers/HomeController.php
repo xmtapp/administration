@@ -1,6 +1,6 @@
 <?php
 
-namespace XmtApp\Module\Administration;
+namespace XmtApp\Module\Administration\Controllers;
 
 use XmtApp\Http\Controller;
 
