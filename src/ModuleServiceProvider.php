@@ -6,12 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 class ModuleServiceProvider extends ServiceProvider {
-    
-    // 模块标识
-    protected $identification = 'administration';
-
-    // 配置集合名
-    protected $config = 'admin';
 
     // 语言包
     protected $trans = 'admin';
@@ -20,7 +14,7 @@ class ModuleServiceProvider extends ServiceProvider {
     protected $view = 'admin';
 
     // 路由前缀
-    protected $route_prefix = 'administration';
+    protected $route_prefix = 'admin';
     /**
      * The controller namespace for the application.
      *
@@ -46,6 +40,10 @@ class ModuleServiceProvider extends ServiceProvider {
 
         // 设置模块的视图目录
         $this->loadViewsFrom(__DIR__.'/../resources/views', $this->view);
+
+        $this->setPublishes();
+
+        $this->mergeConfigFrom(__DIR__.'/../config/admin.php', 'admin');
     }
 
     /**
@@ -60,5 +58,12 @@ class ModuleServiceProvider extends ServiceProvider {
         Route::prefix($prefix)->middleware('web')
              ->namespace($this->namespace)
              ->group(__DIR__.'/routes.php');
+    }
+
+    protected function setPublishes()
+    {
+        $this->publishes([
+            __DIR__.'/../config/admin.php' => config_path('admin.php')
+        ], 'admin-config');
     }
 }
